@@ -39,3 +39,19 @@ db2.example.com
 >  - The all host group contains every host explicitly listed in the inventory
 >  - The ungrouped host group contains every host explicitly listed in the inventory that is not a member of any other group.
 # Defining Nested Groups
+Ansible host inventories can include groups of host groups. This is accomplished by creating a host group name with the :children suffix. The following example creates a new group called north-america, which includes all hosts from the usa and canada groups.
+```
+[usa]
+washington1.example.com
+washington2.example.com
+
+[canada]
+ontario01.example.com
+ontario02.example.com
+
+[north-america:children]
+canada
+usa
+```
+A group can have both managed hosts and child groups as members. For example, in the previous inventory you could add a [north-america] section that has its own list of managed hosts. That list of hosts would be merged with the additional hosts that the north-america group inherits from its child groups.
+
