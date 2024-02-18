@@ -109,4 +109,10 @@ Ansible inventory information can also be dynamically generated, using informati
 
 For example, a dynamic inventory program could contact your Red Hat Satellite server or Amazon EC2 account, and use information stored there to construct an Ansible inventory. Because the program does this when you run Ansible, it can populate the inventory with up-to-date information provided by the service as new hosts are added, and old hosts are removed.
 
-
+# Managing Ansible Configuration Files
+- Objectives
+  - Describe where Ansible configuration files are located, how Ansible selects them, and edit them to apply changes to default settings.
+# Configuring Ansible
+You can create and edit two files in each of your Ansible project directories that configure the behavior of Ansible and the ansible-navigator command:
+- ansible.cfg, which configures the behavior of several Ansible tools.
+- ansible-navigator.yml, which changes default options for the ansible-navigator command.
