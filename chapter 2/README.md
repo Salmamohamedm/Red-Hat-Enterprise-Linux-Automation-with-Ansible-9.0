@@ -116,3 +116,25 @@ For example, a dynamic inventory program could contact your Red Hat Satellite se
 You can create and edit two files in each of your Ansible project directories that configure the behavior of Ansible and the ansible-navigator command:
 - ansible.cfg, which configures the behavior of several Ansible tools.
 - ansible-navigator.yml, which changes default options for the ansible-navigator command.
+# Managing Ansible Settings
+You can create an ansible.cfg file in your Ansible project's directory to apply settings that apply to multiple Ansible tools.
+
+The Ansible configuration file consists of several sections, with each section containing settings defined as key-value pairs. Section titles are enclosed in square brackets. For basic operation, use the following two sections:
+- [defaults], which sets defaults for Ansible operation
+- [privilege_escalation], which configures how Ansible performs privilege escalation on managed hosts
+For example, the following is a typical ansible.cfg file:
+```
+[defaults]
+inventory = ./inventory
+remote_user = user
+ask_pass = false
+
+[privilege_escalation]
+become = true
+become_method = sudo
+become_user = root
+become_ask_pass = false
+```
+The following table explains these parameters:
+
+![Screenshot (510)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/30bd08a6-0349-4c6c-95d4-fa3803b8984b)
