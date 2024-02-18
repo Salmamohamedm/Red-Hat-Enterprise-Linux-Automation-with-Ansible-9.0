@@ -84,7 +84,10 @@ ansible-navigator inventory -m stdout --host washington1.example.com
  ```
 ansible-navigator inventory -m stdout --list
 ```
-
+The following command lists all hosts in a group.
+```
+ansible-navigator inventory -m stdout --graph
+```
 
 
 
