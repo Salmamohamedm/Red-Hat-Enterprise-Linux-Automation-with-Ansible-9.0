@@ -96,5 +96,17 @@ ansible-navigator inventory
 > If the inventory contains a host and a host group with the same name, the ansible-navigator inventory command prints a warning.
 > Ensure that host groups do not use the same names as hosts in the inventory.
 
+# Overriding the Location of the Inventory
+The /etc/ansible/hosts file is considered the system's default static inventory file. However, normal practice is not to use that file but to specify a different location for your inventory files.
+
+The ansible-navigator commands that you use to run playbooks can specify the location of an inventory file on the command line with the --inventory PATHNAME or -i PATHNAME option, where PATHNAME is the path to the desired inventory file.
+
+> [!NOTE]
+You can also define a different default location for the inventory file in your Ansible configuration file.
+
+# Dynamic Inventories
+Ansible inventory information can also be dynamically generated, using information provided by external databases. The open source community has written a number of dynamic inventory plug-ins that are available from the upstream Ansible project. If those Ansible plug-ins do not meet your needs, you can also write your own.
+
+For example, a dynamic inventory program could contact your Red Hat Satellite server or Amazon EC2 account, and use information stored there to construct an Ansible inventory. Because the program does this when you run Ansible, it can populate the inventory with up-to-date information provided by the service as new hosts are added, and old hosts are removed.
 
 
