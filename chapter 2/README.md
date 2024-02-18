@@ -88,6 +88,13 @@ The following command lists all hosts in a group.
 ```
 ansible-navigator inventory -m stdout --graph
 ```
+Run the ansible-navigator inventory command to interactively browse inventory hosts and groups:
+```
+ansible-navigator inventory
+```
+> [!Important]
+> If the inventory contains a host and a host group with the same name, the ansible-navigator inventory command prints a warning.
+> Ensure that host groups do not use the same names as hosts in the inventory.
 
 
 
