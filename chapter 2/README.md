@@ -138,3 +138,4 @@ become_ask_pass = false
 The following table explains these parameters:
 
 ![Screenshot (510)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/30bd08a6-0349-4c6c-95d4-fa3803b8984b)
+
