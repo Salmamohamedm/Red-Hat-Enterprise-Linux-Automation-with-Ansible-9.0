@@ -54,4 +54,37 @@ canada
 usa
 ```
 A group can have both managed hosts and child groups as members. For example, in the previous inventory you could add a [north-america] section that has its own list of managed hosts. That list of hosts would be merged with the additional hosts that the north-america group inherits from its child groups.
+# Simplifying Host Specifications with Ranges
+You can specify ranges in the hostnames or IP addresses to simplify Ansible host inventories. You can specify either numeric or alphabetic ranges. Ranges have the following syntax:
+```
+[START:END]
+```
+Ranges match all values from START to END, inclusively. Consider the following examples:
+- 192.168.[4:7].[0:255] matches all IPv4 addresses in the 192.168.4.0/22 network (192.168.4.0 through 192.168.7.255).
+
+- server[01:20].example.com matches all hosts named server01.example.com through server20.example.com.
+
+- [a:c].dns.example.com matches hosts named a.dns.example.com, b.dns.example.com, and c.dns.example.com.
+
+- 2001:db8::[a:f] matches all IPv6 addresses from 2001:db8::a through 2001:db8::f.
+If leading zeros are included in numeric ranges, they are used in the pattern. The second example above does not match server1.example.com but does match server07.example.com. To illustrate this, the following example uses ranges to simplify the [usa] and [canada] group definitions from the preceding example:
+```
+[usa]
+washington[1:2].example.com
+
+[canada]
+ontario[01:02].example.com
+```
+# Verifying the Inventory
+When in doubt, use the ansible-navigator inventory command to verify a machine's presence in the inventory. 
+```
+ansible-navigator inventory -m stdout --host washington1.example.com
+```
+ The following command lists all hosts in the inventory.
+ ```
+ansible-navigator inventory -m stdout --list
+```
+
+
+
 
