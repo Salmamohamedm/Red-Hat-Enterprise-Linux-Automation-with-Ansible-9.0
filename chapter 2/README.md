@@ -283,3 +283,8 @@ Setting become = true means that all tasks in the plays in playbooks that you ru
 Both the ansible.cfg file and ansible-navigator.yml support the number sign (#) at the start of a line as a comment character. The number sign at the start of a line comments out the entire line.
 
 In addition, the ansible.cfg file supports the semicolon (;) as a comment character. The semicolon character comments out everything to the right of it on the line.
+
+## References
+ssh-keygen, and ssh-copy-id man pages
+
+  [Configuring Ansible: Ansible Documentation](https://docs.ansible.com/ansible/latest/installation_guide/intro_configuration.html)
