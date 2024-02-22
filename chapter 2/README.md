@@ -346,14 +346,51 @@ name: just an example
     - second
     - third
 ```
+The initial example play has three keys: name, hosts, and tasks. These keys all have the same indentation.
+
+The first line of the example play starts with a dash and a space (indicating the play is the first item of a list), and then the first key, name. The name key associates an arbitrary string with the play as a label that identifies the purpose of the play. The name key is optional, but is recommended because it helps to document your playbook. This is especially useful when a playbook contains multiple plays.
+```
+- name: Configure important user consistently
+```
+The second key in the play is a hosts key, which specifies the hosts against which the play's tasks are run. The hosts key takes a host pattern as a value, such as the names of managed hosts or groups in the inventory.
+```
+  hosts: servera.lab.example.com
+```
 
 
+Finally, the last key in the play is tasks, whose value specifies a list of tasks to run for this play. This example has a single task, which runs the ansible.builtin.user module with specific arguments (to ensure the newbie user exists and has UID 4000).
+```
+ tasks:
+    - name: newbie exists with UID 4000
+      ansible.builtin.user:
+        name: newbie
+        uid: 4000
+        state: present
+```
+The tasks key is the part of the play that actually lists, in order, the tasks to be run on the managed hosts. Each task in the list is itself a collection of key-value pairs.
 
+In this example, the only task in the play has two keys:
+- name is an optional label documenting the purpose of the task. It is a good idea to name all your tasks to help document the purpose of each step of the automation process.
+- ansible.builtin.user is the module to run for this task. Its arguments are passed as a collection of key-value pairs, which are children of the module (name, uid, and state).
 
+The following is another example of a tasks key with multiple tasks, each using the ansible.builtin.service module to ensure that a service should start at boot:
+```
+  tasks:
+    - name: Web server is enabled
+      ansible.builtin.service:
+        name: httpd
+        enabled: true
 
+    - name: NTP server is enabled
+      ansible.builtin.service:
+        name: chronyd
+        enabled: true
 
-
-
+    - name: Postfix is enabled
+      ansible.builtin.service:
+        name: postfix
+        enabled: true
+```
 
 
 
