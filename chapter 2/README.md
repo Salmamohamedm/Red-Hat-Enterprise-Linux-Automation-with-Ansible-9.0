@@ -392,6 +392,9 @@ The following is another example of a tasks key with multiple tasks, each using 
         enabled: true
 ```
 
+> [!Important]
+> The order in which the plays and tasks are listed in a playbook is important, because Ansible runs them in the same order.
+
 
 
 
