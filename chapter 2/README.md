@@ -164,4 +164,16 @@ To exit the interactive mode of the ansible-navigator config command, press Esc 
   workstation.
 
 
+# Managing Settings for Automation Content Navigator
+You can create a configuration file (or settings file) for ansible-navigator to override the default values of its configuration settings. The settings file can be in JSON (.json) or YAML (.yml or .yaml) format. This discussion focuses on the YAML format.
+
+Automation content navigator looks for a settings file in the following order and uses the first file that it finds:
+- If the ANSIBLE_NAVIGATOR_CONFIG environment variable is set, then use the configuration file at the location it specifies.
+- An ansible-navigator.yml file in your current Ansible project directory.
+- A ~/.ansible-navigator.yml file (in your home directory). Notice that it has a "dot" at the start of its file name.
+Just like the Ansible configuration file, each project can have its own automation content navigator settings file.
+
+## The following ansible-navigator.yml file configures some common settings:
+![Screenshot (518)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/1be2db48-2826-49c4-a2c6-5552c02e9f83)
+
 
