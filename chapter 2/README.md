@@ -213,3 +213,28 @@ With this configuration, you can run ansible-navigator run with the -m stdout an
  If you do not disable playbook artifact generation for ansible-navigator, or if you do not use -m stdout when running ansible-navigator, the ansible-navigator command might hang or 
  otherwise fail to run.
 
+If you have password-based SSH authentication set up, you can configure key-based SSH authentication.
+
+The first step is to make sure that the user on the control node has an SSH key pair configured in ~/.ssh. You can run the ssh-keygen command to generate a key pair.
+For a single existing managed host, you can install your public key on the managed host and use the ssh-copy-id command to populate your local ~/.ssh/known_hosts file with its host key, as follows:
+```
+ ssh-copy-id root@web1.example.com
+```
+> [!NOTE]
+You can also use an Ansible Playbook to deploy your public key to the remote_user account on all managed hosts using the authorized_key module.
+
+
+A play that ensures that your public key is deployed to the managed hosts' root accounts might read as follows:
+```
+- name: Public key is deployed to managed hosts for Ansible
+  hosts: all
+
+  tasks:
+    - name: Ensure key is in root's ~/.ssh/authorized_hosts
+      ansible.posix.authorized_key:
+        user: root
+        state: present
+        key: '{{ item }}'
+      with_file:
+        - ~/.ssh/id_rsa.pub
+```
