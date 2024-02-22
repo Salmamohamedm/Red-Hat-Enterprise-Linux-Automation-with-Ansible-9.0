@@ -238,3 +238,25 @@ A play that ensures that your public key is deployed to the managed hosts' root 
       with_file:
         - ~/.ssh/id_rsa.pub
 ```
+Because the managed host would not have SSH key-based authentication configured yet, you would have to run the playbook using the ansible-navigator run command with the --ask-pass option for the command to authenticate as the remote user.
+
+# Escalating Privileges
+For security and auditing reasons, Ansible might need to connect to remote hosts as an unprivileged user before escalating privileges to get administrative access as the root user. This can be set up in the [privilege_escalation] section of the Ansible configuration file.
+
+To enable privilege escalation by default, set the become = true parameter in the configuration file. Even if this is set by default, various methods exist to override it when running ad hoc commands or Ansible Playbooks. (For example, there might be times when you want to run a task or play that does not escalate privileges.)
+
+The become_method parameter specifies how to escalate privileges. Several options are available, but the default is to use sudo. Likewise, the become_user parameter specifies which user to escalate to, but the default is root.
+
+If the become_method mechanism chosen requires the user to enter a password to escalate privileges, you can set the become_ask_pass = true parameter in the configuration file.
+> [!Important]
+> If you have become_ask_pass = true set when you use ansible-navigator, you also need to disable playbook artifact generation and use -m stdout as previously discussed in this section.
+
+
+ > [!NOTE]
+On Red Hat Enterprise Linux 8 and 9, the default configuration of /etc/sudoers grants all users in the wheel group the ability to use sudo to become root after entering their password.
+> One way to enable a user (someuser in the following example) to use sudo to become root without a password is to install a file with the appropriate parameters into the /etc/sudoers.d directory
+> (owned by root, with octal permissions 0400):
+```
+## password-less sudo for Ansible user
+someuser ALL=(ALL) NOPASSWD:ALL
+```
