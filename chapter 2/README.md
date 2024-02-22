@@ -275,3 +275,11 @@ become_method = sudo
 become_user = root
 become_ask_pass = false
 ```
+> [!NOTE]
+Setting become = true means that all tasks in the plays in playbooks that you run are run as the user specified by the become_user parameter, usually the root user. From a security perspective, rather than setting become = true in the ansible.cfg file, it might be a better practice to configure privilege escalation for specific plays in your playbooks, or on a task-by-task basis as needed
+
+
+# Configuration File Comments
+Both the ansible.cfg file and ansible-navigator.yml support the number sign (#) at the start of a line as a comment character. The number sign at the start of a line comments out the entire line.
+
+In addition, the ansible.cfg file supports the semicolon (;) as a comment character. The semicolon character comments out everything to the right of it on the line.
