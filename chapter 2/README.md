@@ -260,3 +260,18 @@ On Red Hat Enterprise Linux 8 and 9, the default configuration of /etc/sudoers g
 ## password-less sudo for Ansible user
 someuser ALL=(ALL) NOPASSWD:ALL
 ```
+Think through the security implications of whatever approach you choose for privilege escalation. Different organizations and deployments might have different tradeoffs to consider.
+
+The following example ansible.cfg file assumes that you can connect to the managed hosts as someuser using SSH key-based authentication, and that someuser can use sudo to run commands as root without entering a password:
+```
+[defaults]
+inventory = ./inventory
+remote_user = someuser
+ask_pass = false
+
+[privilege_escalation]
+become = true
+become_method = sudo
+become_user = root
+become_ask_pass = false
+```
