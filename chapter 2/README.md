@@ -284,6 +284,88 @@ Both the ansible.cfg file and ansible-navigator.yml support the number sign (#) 
 
 In addition, the ansible.cfg file supports the semicolon (;) as a comment character. The semicolon character comments out everything to the right of it on the line.
 
+# Writing and Running Playbooks
+- Objectives
+  - Write a basic Ansible Playbook and run it using the automation content navigator.
+# Ansible Playbooks
+The power of Ansible is that you can use playbooks to run multiple, complex tasks against a set of targeted hosts in an easily repeatable manner.
+
+A task is the application of a module to perform a specific unit of work. A play is a sequence of tasks to be applied, in order, to one or more hosts selected from your inventory. A playbook is a text file containing a list of one or more plays to run in a specific order.
+
+Plays enable you to change a lengthy, complex set of manual administrative tasks into an easily repeatable routine with predictable and successful outcomes. In a playbook, you can save the sequence of tasks in a play into a human-readable and immediately runnable form. The tasks themselves, because of the way in which they are written, document the steps needed to deploy your application or infrastructure.
+
+# Formatting an Ansible Playbook
+The following example contains one play with a single task.
+```
+---
+- name: Configure important user consistently
+  hosts: servera.lab.example.com
+  tasks:
+    - name: Newbie exists with UID 4000
+      ansible.builtin.user:
+        name: newbie
+        uid: 4000
+        state: present
+```
+A playbook is a text file written in YAML format, and is normally saved with the extension .yml. The playbook uses indentation with space characters to indicate the structure of its data. YAML does not place strict requirements on how many spaces are used for the indentation, but two basic rules apply:
+
+- Data elements at the same level in the hierarchy (such as items in the same list) must have the same indentation.
+
+- Items that are children of another item must be indented more than their parents.
+
+You can also add blank lines for readability.
+
+> [!Important]
+> You can only use space characters for indentation; do not use tab characters.
+If you use the vi text editor, you can apply some settings which might make it easier to edit your playbooks. For example, you can add the following line to your $HOME/.vimrc file, and when vi detects that you are editing a YAML file, it performs a 2-space indentation when you press the Tab key and automatically indents subsequent lines.
+
+```
+autocmd FileType yaml setlocal ai ts=2 sw=2 et
+```
+
+A playbook usually begins with a line consisting of three dashes (---) to indicate the start of the document. It might end with three dots (...) to indicate the end of the document, although in practice this is often omitted.
+
+Between those markers, the playbook is defined as a list of plays. An item in a YAML list starts with a single dash followed by a space. For example, a YAML list might appear as follows:
+
+```
+- apple
+- orange
+- grape
+```
+
+In the preceding playbook example, the line after --- begins with a dash and starts the first (and only) play in the list of plays.
+
+
+The play itself is a collection of key-value pairs. Keys in the same play should have the same indentation. The following example shows a YAML snippet with three keys. The first two keys have simple values. The third has a list of three items as a value.
+
+```
+name: just an example
+  hosts: webservers
+  tasks:
+    - first
+    - second
+    - third
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## References
 ssh-keygen, and ssh-copy-id man pages
 
