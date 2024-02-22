@@ -176,4 +176,27 @@ Just like the Ansible configuration file, each project can have its own automati
 ## The following ansible-navigator.yml file configures some common settings:
 ![Screenshot (518)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/1be2db48-2826-49c4-a2c6-5552c02e9f83)
 
+# Configuring Connections
+Ansible needs to know how to communicate with its managed hosts. One of the most common reasons to change the configuration file is to control which methods and users Ansible uses to administer managed hosts. The following are some examples of required information:
+- The location of the inventory that lists the managed hosts and host groups
+- The connection protocol to use to communicate with the managed hosts (by default, SSH), and whether a nonstandard network port is needed to connect to the server
+- The remote user to use on the managed hosts; this could be root or it could be an unprivileged user
+- If the remote user is unprivileged, Ansible needs to know if it should try to escalate privileges to root and how to do it (for example, by using sudo)
+- Whether to prompt for an SSH password or sudo password to log in or gain privileges
+# Inventory Location
+In the [defaults] section of the ansible.cfg file, the inventory parameter can point directly to a static inventory file, or to a directory containing multiple static inventory files and dynamic inventory scripts.
+```
+[defaults]
+inventory = ./inventory
+```
+# Connection Settings
+- By default, Ansible connects to managed hosts using the SSH protocol. The most important parameters that control how Ansible connects to the managed hosts are set in the [defaults] 
+  section.
+  
+- If not configured otherwise, Ansible attempts to connect to the managed host using the same username as the local user running the Ansible commands. To specify a different remote 
+  user, set the remote_user parameter to that username. If the local user running Ansible has private SSH keys configured that allow them to authenticate as the remote user on the 
+  managed hosts, Ansible automatically logs in.
+  
+- If you do not have SSH key-based authentication configured for your remote user, it is possible to use password-based authentication. However, to use password-based SSH 
+  authentication with ansible-navigator, you need to configure ansible-navigator so that it does not generate playbook artifacts (log files that record information about playbook runs).
 
