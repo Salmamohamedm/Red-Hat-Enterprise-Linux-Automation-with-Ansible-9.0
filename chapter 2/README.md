@@ -138,4 +138,30 @@ become_ask_pass = false
 The following table explains these parameters:
 
 ![Screenshot (510)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/30bd08a6-0349-4c6c-95d4-fa3803b8984b)
+# Determining Current Configuration Settings
+The ansible-navigator config command displays the current Ansible configuration. The command displays the actual value that Ansible uses for each parameter and from which source it retrieves that value, configuration file, or environment variable.
+
+The following output is from the ansible-navigator config command run from a /home/student/project/ directory that contains an ansible.cfg file:
+![Screenshot (517)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/8c89f3f3-b1d8-4317-902d-45ec7c001bd7)
+
+in the preceding example, each line describes an Ansible configuration parameter.
+
+- The Default ask pass and Default ask vault pass parameters use their default values, indicated by the True value in the Default column.
+
+- The Default become and Default become ask pass parameters have been manually configured to True in the /home/student/project/ansible.cfg configuration file. The Default column is 
+  False for these two parameters. The Source column provides the path to the configuration file which defines these parameters, and the Current column shows that the value for these 
+  two parameters is True.
+
+- The Default become method parameter has the current value of sudo, and the Default become user parameter has the current value of root.
+To exit the interactive mode of the ansible-navigator config command, press Esc or type :q.
+
+> [!NOTE]
+  If the project does not include an ansible.cfg file, then Ansible tries to use a ~/.ansible.cfg file in the home directory of the user running Ansible, and if that does not exist, it 
+  tries to use an /etc/ansible/ansible.cfg file.
+  However, if you are using ansible-navigator, the ansible-navigator command looks for these files inside the automation execution environment. On the current Red Hat-supported 
+  execution environments, these files do not exist or are empty.
+  If you are using the earlier ansible-playbook command or other Ansible commands that do not use automation execution environments, then Ansible looks for these files on your 
+  workstation.
+
+
 
