@@ -200,3 +200,16 @@ inventory = ./inventory
 - If you do not have SSH key-based authentication configured for your remote user, it is possible to use password-based authentication. However, to use password-based SSH 
   authentication with ansible-navigator, you need to configure ansible-navigator so that it does not generate playbook artifacts (log files that record information about playbook runs).
 
+## The following example is a minimal ansible-navigator.yml file that disables the generation of playbook artifacts:
+```
+ansible-navigator:
+  playbook-artifact:
+    enable: false
+```
+With this configuration, you can run ansible-navigator run with the -m stdout and --ask-pass options in addition to the playbook that you want to run, so that the ansible-navigator command prompts you for the remote user's SSH password.With this configuration, you can run ansible-navigator run with the -m stdout and --ask-pass options in addition to the playbook that you want to run, so that the ansible-navigator command prompts you for the remote user's SSH password.
+
+> [!Important]
+> You can set the ask_pass = true parameter in the defaults section of the ansible.cfg file so that you are always prompted by Ansible tools for the SSH password.
+ If you do not disable playbook artifact generation for ansible-navigator, or if you do not use -m stdout when running ansible-navigator, the ansible-navigator command might hang or 
+ otherwise fail to run.
+
