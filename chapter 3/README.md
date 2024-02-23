@@ -331,5 +331,8 @@ demo.example.com    : ok=3    changed=0    unreachable=0    failed=0    skipped=
   
   Ansible Vault can encrypt any data file used by Ansible. This might include inventory variables, included variable files in a playbook, variable files passed as arguments when 
   executing the playbook, or variables defined in Ansible roles.
-  
+
+ >  [!Important]
+> Ansible Vault does not implement its own cryptographic functions but rather uses an external Python toolkit. Files are protected with symmetric encryption using AES256 with a 
+  password as the secret key. Note that the way this is done has not been formally audited by a third party.
 
