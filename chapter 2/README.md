@@ -496,6 +496,10 @@ This time, all tasks passed with status ok and no changes were reported.
   Community Ansible provides an earlier tool called ansible-playbook that takes many of the same options as ansible-navigator run -m stdout and that uses your control node as the 
   execution environment.
   It cannot use automation execution environments, and is only supported by Red Hat in Red Hat Enterprise Linux 9 for narrow use cases.
+# Increasing Output Verbosity
+The default output provided by the ansible-navigator run command does not provide detailed task execution information. The -v option provides additional information, with up to four levels.
+![Screenshot (519)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/799a5ce6-ada5-4fa4-a011-66e43ffbac9b)
+
 
 
 ## References
