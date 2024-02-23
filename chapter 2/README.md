@@ -564,6 +564,72 @@ The following example shows a simple playbook with two plays. The first play run
         enabled: true
 
 ```
+# Remote Users and Privilege Escalation in Plays
+Plays can use different remote users or privilege escalation settings than is specified by the defaults or the current configuration file. You can override these settings in the play itself at the same level as the hosts or tasks keywords.
+
+User Attributes
+Tasks in playbooks are normally executed through a network connection to the managed hosts. Ansible has to connect to each managed host as some user to run those tasks.
+
+By default, if you use ansible-navigator run to run a playbook, then Ansible connects to the managed host as the current user inside the automation execution environment, root.
+> [!NOTE]
+> If you run an Ansible command that does not use execution environments, such as ansible-playbook, then by default Ansible tries to authenticate to the remote managed host using the username of the account you used to run the command.
+> You can set a remote_user directive in your project's ansible.cfg file to configure Ansible to use a different user account on the managed hosts when it initially logs in. If you still need the tasks to run as root, then you can use privilege escalation to switch to that user after the initial remote connection.
+
+However, you can also specify the remote user that Ansible uses on a play-by-play basis. If the remote user defined in the Ansible configuration for task execution is not suitable, it can be overridden by the remote_user keyword within a play.
+```
+remote_user: remoteuser
+```
+> [!Important]
+> Ansible determines which user account to use when connecting to a managed host based on the following list, selecting the first username it finds in this order:
+
+- The ansible_user variable set for the host or group, if set.
+
+- The remote_user from the current play, if set.
+
+- The remote_user from the ansible.cfg configuration file, if set.
+
+
+If no value has been set for any of the preceding settings, and you are running playbooks by using ansible-navigator with an execution environment, Ansible uses root. (If you are using ansible-playbook, Ansible uses the name of the user that ran the command.)
+
+Privilege Escalation Attributes
+You can also configure privilege escalation in a play. Use the become Boolean keyword to enable or disable privilege escalation for an individual play or task. This overrides the setting in the ansible.cfg configuration file. It can take yes or true to enable privilege escalation, or no or false to disable it.
+```
+become: true
+```
+If privilege escalation is enabled, use the become_method keyword in the play to specify the privilege escalation method to use for that play. The example below specifies sudo as the method for privilege escalation.
+```
+become_method: sudo
+```
+Additionally, with privilege escalation enabled, you can use the become_user keyword in the play to define the user account to use for privilege escalation in that specific play.
+```
+become_user: privileged_user
+```
+The following example demonstrates some of these keywords in a play:
+```
+- name: /etc/hosts is up-to-date
+  hosts: datacenter-west
+  remote_user: automation
+  become: true
+
+  tasks:
+    - name: server.example.com in /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: '192.0.2.42 server.example.com server'
+        state: present
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## References
