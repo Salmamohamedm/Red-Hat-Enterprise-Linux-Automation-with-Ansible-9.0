@@ -619,8 +619,14 @@ The following example demonstrates some of these keywords in a play:
         state: present
 ```
 
+# Selecting Modules
+The large number of modules packaged with Ansible provides administrators with many tools for common administrative tasks.
+
+The following table lists a small number of useful modules as examples. Many others exist.
 
 
+![Screenshot (520)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/add8cbf1-5d66-4b6c-8f47-c16879c59e3b)
+![Screenshot (521)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/d1a99da5-334b-4af5-b5c3-412b4ad7502f)
 
 
 
