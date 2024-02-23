@@ -695,9 +695,84 @@ Comments can also be used to aid readability. In YAML, everything to the right o
 some data # This is also a YAML comment
 ```
 
+# YAML Strings
+Strings in YAML do not normally need to be put in quotation marks even if the string contains no spaces. You can enclose strings in either double or single quotation marks.
+```
+this is a string
+```
+```
+'this is another string'
+```
+```
+"this is yet another a string"
+```
 
+You can write multiline strings in either of two ways. You can use the vertical bar (|) character to denote that newline characters within the string are to be preserved.
+```
+include_newlines: |
+        Example Company
+        123 Main Street
+        Atlanta, GA 30303
+```
 
+You can also write multiline strings using the greater-than (>) character to indicate that newline characters are to be converted to spaces and that leading white spaces in the lines are to be removed. This method is often used to break long strings at space characters so that they can span multiple lines for better readability.
 
+```
+fold_newlines: >
+        This is an example
+        of a long string,
+        that will become
+        a single sentence once folded.
+```
+# YAML Dictionaries
+You have seen collections of key-value pairs written as an indented block, as follows
+```
+name: svcrole
+  svcservice: httpd
+  svcport: 80
+```
+Dictionaries can also be written in an inline block format enclosed in braces, as follows:
+```
+ {name: svcrole, svcservice: httpd, svcport: 80}
+```
+Avoid the inline block format because it is harder to read. However, there is at least one situation in which it is more commonly used. The use of roles is discussed later in this course. When a playbook includes a list of roles, it is more common to use this syntax to make it easier to distinguish roles included in a play from the variables being passed to a role.
+
+# YAML Lists
+You have also seen lists written with the normal single-dash syntax:
+```
+ hosts:
+    - servera
+    - serverb
+    - serverc
+```
+Lists also have an inline format enclosed in square braces, as follows:
+```
+hosts: [servera, serverb, serverc]
+```
+# Obsolete Playbook Shorthand
+Some playbooks might use an earlier shorthand method to define tasks by putting the key-value pairs for the module on the same line as the module name. For example, you might see this syntax:
+```
+ tasks:
+    - name: Shorthand form
+      ansible.builtin.service: name=httpd enabled=true state=started
+```
+Normally you would write the same task as follows:
+```
+ tasks:
+    - name: Normal form
+      ansible.builtin.service:
+        name: httpd
+        enabled: true
+        state: started
+```
+
+You should generally avoid the shorthand form and use the normal form.
+
+The normal form has more lines, but it is easier to work with. The task's keywords are stacked vertically and are easier to differentiate. Your eyes can move straight down the play with less left-to-right motion, making it easier to read.
+
+Also, the normal syntax is native YAML; the shorthand form is not. Syntax highlighting tools in text editors can help you more effectively if you use the normal format than if you use the shorthand format.
+
+You might see this syntax in documentation and earlier playbooks from other people, and the syntax does still function.
 
 
 
