@@ -396,11 +396,100 @@ The following is another example of a tasks key with multiple tasks, each using 
 > The order in which the plays and tasks are listed in a playbook is important, because Ansible runs them in the same order.
 
 
+# Finding Modules for Tasks
+Modules are the tools that plays use to accomplish tasks. Hundreds of modules have been written that do different things. You can usually find a tested, special-purpose module that does what you need, often as part of the default automation execution environment.
+
+Ansible Core 2.11 and later package the modules that you use for tasks in sets called Ansible Content Collections. Each Ansible Content Collection contains a selection of related Ansible content, including modules and documentation.
+
+The ansible-core package provides a single Ansible Content Collection named ansible.builtin. These modules are always available to you. Visit https://docs.ansible.com/ansible/latest/collections/ansible/builtin/ for a list of modules contained in the ansible.builtin collection.
+
+In addition, the default automation execution environment used by ansible-navigator in Red Hat Ansible Automation Platform 2.2, ee-rhel8-supported, includes a number of other Ansible Content Collections.
+
+You can browse these collections by running the ansible-navigator collections command. In the interactive UI, you can type a colon (:) followed by the line number of a collection to get more information about it, including the list of modules and other Ansible content that it provides. You can do the same thing with the line number of a module to get documentation about that module. Press Esc to go back to the preceding list.
+
+You can also download additional Ansible Content Collections from a number of places, including:
+
+The automation hub offered through the Red Hat Hybrid Cloud Console at https://content.redhat.com/ansible/automation-hub
+
+A private automation hub managed by your organization
+
+The community's Ansible Galaxy website at https://galaxy.ansible.com
+
+These can be installed in the collections directory of your Ansible project. Red Hat does not provide formal support for community Ansible Content Collections, only for Red Hat Certified Ansible Content Collections.
+
+Modules are named using fully qualified collection names (FQCNs). This allows the same name to be used for different modules in two Ansible Content Collections without causing conflicts. For example, the copy module provided by the ansible.builtin Ansible Content Collection has ansible.builtin.copy as its FQCN.
+
+
+> [!Important]
+  In earlier versions of Ansible, modules had to be included with Ansible and were named using just their short name, for example the copy module. Ansible might still try to resolve 
+  short names if your playbooks use them. However, to avoid errors, it is a good practice to use FQCNs in new playbooks.
+  Most modules are idempotent, which means that they can be run safely multiple times, and if the system is already in the correct state, they do nothing. For example, if you run the 
+  play from the preceding example a second time, it should report no changes.
+
+# Running Playbooks
+The ansible-navigator run command is used to run playbooks. The command is executed on the control node, and the name of the playbook to be run is passed as an argument.
+Running the ansible-navigator run command with the -m stdout option prints the output of the playbook run to standard output. If the -m stdout option is not provided, then ansible-navigator runs in interactive mode. 
+```
+ansible-navigator run -m playbook site.yml
+```
+When you run the playbook, output is generated to show the play and tasks being executed. The output also reports the results of each task executed.
+The following example shows the contents of a simple playbook, and then the result of running it.
+```
+[user@controlnode playdemo]$ cat webserver.yml
+---
+- name: Play to set up web server
+  hosts: servera.lab.example.com
+  tasks:
+  - name: Latest httpd version installed
+    ansible.builtin.dnf:
+      name: httpd
+      state: latest
+...output omitted...
+[user@controlnode playdemo]$ ansible-navigator run \
+> -m stdout webserver.yml
+
+PLAY [Play to set up web server] ************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [servera.lab.example.com]
+
+TASK [Latest httpd version installed] ******************************************
+changed: [servera.lab.example.com]
+
+PLAY RECAP *********************************************************************
+servera.lab.example.com    : ok=2    changed=1    unreachable=0    failed=0   skipped=0    rescued=0    ignored=0
+```
+It appears you've successfully executed the playbook webserver.yml using Ansible Navigator. The output indicates that the playbook ran two tasks on the host servera.lab.example.com:
+
+1. Gathering Facts: This task gathers system information from the target host.
+2. Latest httpd version installed: This task used the ansible.builtin.dnf module to ensure that the latest version of the httpd package is installed on the target host. It shows that a 
+   change was made on the host, indicating that the httpd package was updated to the latest version.   
+- The "PLAY RECAP" section summarizes the outcome of the playbook run:
+
+    - ok=2 indicates that both tasks completed successfully.
+    - changed=1 shows that one task resulted in a change on the target host, which is the task to ensure the latest httpd version is installed.
+    - unreachable=0, failed=0, skipped=0, rescued=0, and ignored=0 indicate that there were no unreachable hosts, failed tasks, skipped tasks, rescued tasks, or ignored tasks during the playbook run.
 
 
 
+You should also see that the Latest httpd version installed task is changed for servera.lab.example.com. This means that the task changed something on that host to ensure that its specification was met. In this case, it means that the httpd package was not previously installed or was not the latest version.
 
+In general, tasks in Ansible Playbooks are idempotent, and it is safe to run a playbook multiple times. If the targeted managed hosts are already in the correct state, no changes should be made. For example, assume that the playbook from the previous example is run again:
 
+```
+[user@controlnode playdemo]$ ansible-navigator run  -m stdout webserver.yml
+
+PLAY [Play to set up web server] ************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [servera.lab.example.com]
+
+TASK [Latest httpd version installed] ******************************************
+ok: [servera.lab.example.com]
+
+PLAY RECAP *********************************************************************
+servera.lab.example.com    : ok=2    changed=0    unreachable=0    failed=0   skipped=0    rescued=0    ignored=0
+```
 
 
 
