@@ -492,7 +492,10 @@ servera.lab.example.com    : ok=2    changed=0    unreachable=0    failed=0   sk
 ```
 This time, all tasks passed with status ok and no changes were reported.
 
-
+> [!Note]
+  Community Ansible provides an earlier tool called ansible-playbook that takes many of the same options as ansible-navigator run -m stdout and that uses your control node as the 
+  execution environment.
+  It cannot use automation execution environments, and is only supported by Red Hat in Red Hat Enterprise Linux 9 for narrow use cases.
 
 
 ## References
