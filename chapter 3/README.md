@@ -58,4 +58,59 @@ One recommended practice is to choose globally unique variable names, so that yo
 
 If the same variable name is defined at more than one level, the level with the highest precedence wins. A narrow scope, such as a host variable or a task variable, takes precedence over a wider scope, such as a group variable or a play variable. Variables defined by the inventory are overridden by variables defined by the playbook. Extra variables defined on the command line with the --extra-vars, or -e, option have the highest precedence.
 
+# Variables in Playbooks
+Variables play an important role in Ansible Playbooks because they ease the management of variable data in a playbook.
+# Defining Variables in Playbooks
+When writing plays, you can define your own variables and then invoke those values in a task. For example, you can define a variable named web_package with a value of httpd. A task can then call the variable using the ansible.builtin.dnf module to install the httpd package.
+
+You can define playbook variables in multiple ways. One common method is to place a variable in a vars block at the beginning of a play:
+```
+- hosts: all
+  vars:
+    user: joe
+    home: /home/joe
+```
+It is also possible to define playbook variables in external files. In this case, instead of using a vars block in a play in the playbook, you can use the vars_files directive followed by a list of names for external variable files relative to the location of the playbook:
+```
+- hosts: all
+  vars_files:
+    - vars/users.yml
+```
+The playbook variables are then defined in those files in YAML format:
+```
+user: joe
+home: /home/joe
+```
+# Using Variables in Playbooks
+After you have declared variables, you can use the variables in tasks. Variables are referenced by placing the variable name in double braces ({{ }}). Ansible substitutes the variable with its value when the task is executed.
+```
+vars:
+  user: joe
+
+tasks:
+  # This line will read: Creates the user joe
+  - name: Creates the user {{ user }}
+    user:
+      # This line will create the user named Joe
+      name: "{{ user }}"
+```
+>  [!Important]
+    When a variable is used as the first element to start a value, quotes are mandatory. This prevents Ansible from interpreting the variable reference as starting a YAML dictionary. 
+    The following message appears if quotes are missing:
+ ```
+ansible.builtin.dnf:
+     name: {{ service }}
+            ^ here
+We could be wrong, but this one looks like it might be an issue with
+missing quotes.  Always quote template expression brackets when they
+start a value. For instance:
+
+    with_items:
+      - {{ foo }}
+
+Should be written as:
+
+    with_items:
+      - "{{ foo }}"
+```
 
