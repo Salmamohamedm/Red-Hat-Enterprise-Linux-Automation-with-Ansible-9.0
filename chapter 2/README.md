@@ -628,7 +628,11 @@ The following table lists a small number of useful modules as examples. Many oth
 ![Screenshot (520)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/add8cbf1-5d66-4b6c-8f47-c16879c59e3b)
 ![Screenshot (521)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/d1a99da5-334b-4af5-b5c3-412b4ad7502f)
 
-
+# Module Documentation
+To see a list of the modules available in your current automation execution environment, run the ansible-navigator doc -l command. This displays a list of module names and a synopsis of their functions.
+```
+ansible-navigator doc -l
+```
 
 
 
