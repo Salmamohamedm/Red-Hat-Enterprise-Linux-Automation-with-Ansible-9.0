@@ -562,6 +562,7 @@ The following example shows a simple playbook with two plays. The first play run
       ansible.builtin.service:
         name: mariadb
         enabled: true
+
 ```
 
 
