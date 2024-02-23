@@ -119,3 +119,105 @@ Inventory variables that apply directly to hosts fall into two broad categories:
 One way to define host variables and group variables is to do it directly in the inventory file.
 >  [!NOTE]
 > This is an earlier approach to defining host and group variables, but you might see it used because it puts all the inventory information and variable settings for hosts and host groups in one file.
+
+Defining the ansible_user host variable for demo.example.com:
+```
+[servers]
+demo.example.com  ansible_user=joe
+```
+Defining the user group variable for the servers host group.
+```
+[servers]
+demo1.example.com
+demo2.example.com
+
+[servers:vars]
+user=joe
+```
+Defining the user group variable for the servers group, which consists of two host groups each with two servers.
+```
+[servers1]
+demo1.example.com
+demo2.example.com
+
+[servers2]
+demo3.example.com
+demo4.example.com
+
+[servers:children]
+servers1
+servers2
+
+[servers:vars]
+user=joe
+
+```
+Some disadvantages of this approach are that it makes the inventory file more difficult to work with, it mixes information about hosts and variables in the same file, and it uses an obsolete syntax.
+
+# Using Directories to Populate Host and Group Variables
+You can define variables for hosts and host groups by creating two directories, group_vars and host_vars, in the same working directory as the inventory file or playbook. These directories contain files defining group variables and host variables, respectively.
+>  [!Important]
+> The recommended practice is to define inventory variables using host_vars and group_vars directories, and not to define them directly in the inventory files.
+
+
+To define group variables for the servers group, you would create a YAML file named group_vars/servers, and then the contents of that file would set variables to values using the same syntax as in a playbook:
+```
+user: joe
+```
+Likewise, to define host variables for a particular host, create a file with a name matching the host in the host_vars directory to contain the host variables.
+
+The following examples illustrate this approach in more detail. Consider a scenario where you need to manage two data centers, and the data center hosts are defined in the ~/project/inventory inventory file:
+```
+[datacenter1]
+demo1.example.com
+demo2.example.com
+
+[datacenter2]
+demo3.example.com
+demo4.example.com
+
+[datacenters:children]
+datacenter1
+datacenter2
+```
+If you need to define a general value for all servers in both data centers, set a group variable for the datacenters host group:
+```
+[admin@station project]$ cat ~/project/group_vars/datacenters
+package: httpd
+```
+If you need to define difference values for each data center, set a group variable for each data center host group:
+```
+[admin@station project]$ cat ~/project/group_vars/datacenter1
+package: httpd
+[admin@station project]$ cat ~/project/group_vars/datacenter2
+package: apache
+```
+If you need to define different values for each managed host in every data center, then define the variables in separate host variable files:
+```
+[admin@station project]$ cat ~/project/host_vars/demo1.example.com
+package: httpd
+[admin@station project]$ cat ~/project/host_vars/demo2.example.com
+package: apache
+[admin@station project]$ cat ~/project/host_vars/demo3.example.com
+package: mariadb-server
+[admin@station project]$ cat ~/project/host_vars/demo4.example.com
+package: mysql-server
+```
+The directory structure for the example project, project, if it contained all the example files above, would appear as follows:
+```
+project
+├── ansible.cfg
+├── group_vars
+│   ├── datacenters
+│   ├── datacenters1
+│   └── datacenters2
+├── host_vars
+│   ├── demo1.example.com
+│   ├── demo2.example.com
+│   ├── demo3.example.com
+│   └── demo4.example.com
+├── inventory
+└── playbook.yml
+```
+
+
