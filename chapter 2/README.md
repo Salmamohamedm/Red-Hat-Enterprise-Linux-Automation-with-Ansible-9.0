@@ -633,7 +633,67 @@ To see a list of the modules available in your current automation execution envi
 ```
 ansible-navigator doc -l
 ```
+> [!Important]
+> The ansible-navigator doc -l command displays the short names of modules in the ansible.builtin Ansible Content Collection instead of their FQCNs.
 
+
+
+Use 
+```
+ansible-navigator doc module_name
+```
+display detailed documentation for a module. If you specify the -m stdout option, formatted documentation is displayed to your terminal. If you do not specify that option, leaving ansible-navigator in interactive mode, then you can scroll through the documentation in YAML format.
+
+As an alternative, you can run this commond in interactive mode and explore the documentation for the collections in the current automation execution environment, and their modules.
+```
+ansible-navigator collections
+```
+
+
+You can also view a summary of all the attributes you can use with a module
+```
+ ansible-navigator -s doc module_name
+```
+
+# Running Arbitrary Commands on Managed Hosts
+If a module does not exist to automate some task, special modules are available that can run arbitrary commands on your managed hosts.
+
+The ansible.builtin.command module is the simplest of these commands. Its cmd argument specifies the command that you want to run.
+
+The following example task runs /opt/bin/makedb.sh on managed hosts.
+```
+- name: Run the /opt/bin/makedb.sh command
+  ansible.builtin.command:
+    cmd: /opt/bin/makedb.sh
+```
+Unlike most modules, ansible.builtin.command is not idempotent. Every time the task is specified in a play, it runs and it reports that it changed something on the managed host, even if nothing needed to be changed.
+
+You can try to make the task safer by configuring it only to run based on the existence of a file. The creates option causes the task to run only if a file is missing; the assumption is that if the task runs, it creates that file. The removes option causes the task to run only if a file is present; the assumption is that if the task runs, it removes that file.
+
+For example, the following task only runs if /opt/db/database.db is not present:
+```
+- name: Initialize the database
+  ansible.builtin.command:
+    cmd: /opt/bin/makedb.sh
+    creates: /opt/db/database.db
+```
+
+The ansible.builtin.command module cannot access shell environment variables or perform shell operations such as input/output redirection or pipelines. When you need to perform shell processing, you can use the ansible.builtin.shell module. Like the ansible.builtin.command module, you pass the commands to be executed as arguments to the module.
+
+Both ansible.builtin.command and ansible.builtin.shell modules require a working Python installation on the managed host. A third module, ansible.builtin.raw, can run commands directly using the remote shell, bypassing the module subsystem. This is useful when you are managing systems that cannot have Python installed (for example, a network router). It can also be used to install Python on a managed host.
+
+
+
+# YAML Syntax
+The last part of this section investigates some variations of YAML or Ansible Playbook syntax that you might encounter.
+# YAML Comments
+Comments can also be used to aid readability. In YAML, everything to the right of the number sign (#) is a comment. If there is content to the left of the comment, precede the hash with a space.
+```
+# This is a YAML comment
+```
+```
+some data # This is also a YAML comment
+```
 
 
 
