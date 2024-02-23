@@ -223,3 +223,53 @@ project
 > Ansible looks for host_vars and group_vars subdirectories relative to both the inventory file and the playbook file.
 If your inventory and your playbook happen to be in the same directory, this is simple and Ansible looks in that directory for those subdirectories. If your inventory and your playbook are in separate directories, then Ansible looks in both places for host_vars and group_vars subdirectories. The playbook subdirectories have higher precedence.
 
+# Overriding Variables from the Command Line
+Inventory variables are overridden by variables set in a playbook, but both kinds of variables can be overridden through arguments passed to the ansible-navigator run command on the command line. Variables set on the command line are called extra variables.
+
+Extra variables can be useful when you need to override the defined value for a variable for a one-off run of a playbook. For example:
+```
+ ansible-navigator run main.yml -e "package=apache"
+```
+# Using Dictionaries as Variables
+Instead of assigning configuration data that relates to the same element to multiple variables, administrators can use dictionaries. A dictionary is a data structure containing key-value pairs, where the values can also be dictionaries.
+
+For example, consider the following snippet:
+user1_first_name: Bob
+user1_last_name: Jones
+user1_home_dir: /users/bjones
+user2_first_name: Anne
+user2_last_name: Cook
+user2_home_dir: /users/acook
+This could be rewritten as a dictionary called users:
+```
+users:
+  bjones:
+    first_name: Bob
+    last_name: Jones
+    home_dir: /users/bjones
+  acook:
+    first_name: Anne
+    last_name: Cook
+    home_dir: /users/acook
+```
+You can then use the following variables to access user data:
+```
+# Returns 'Bob'
+users.bjones.first_name
+
+# Returns '/users/acook'
+users.acook.home_dir
+```
+Because the variable is defined as a Python dictionary, an alternative syntax is available.
+```
+# Returns 'Bob'
+users['bjones']['first_name']
+
+# Returns '/users/acook'
+users['acook']['home_dir']
+```
+>  [!Important]
+> The dot notation can cause problems if the key names are the same as names of Python methods or attributes, such as discard, copy, add, and so on. Using the brackets notation can 
+  help avoid conflicts and errors.
+  Both syntaxes are valid, but to make troubleshooting easier, Red Hat recommends that you use one syntax consistently in all files throughout any given Ansible project.
+
