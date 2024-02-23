@@ -113,4 +113,9 @@ Should be written as:
     with_items:
       - "{{ foo }}"
 ```
+# Host Variables and Group Variables
+Inventory variables that apply directly to hosts fall into two broad categories: host variables apply to a specific host, and group variables apply to all hosts in a host group or in a group of host groups. Host variables take precedence over group variables, but variables defined by a playbook take precedence over both.
 
+One way to define host variables and group variables is to do it directly in the inventory file.
+>  [!NOTE]
+> This is an earlier approach to defining host and group variables, but you might see it used because it puts all the inventory information and variable settings for hosts and host groups in one file.
