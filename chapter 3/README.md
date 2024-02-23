@@ -219,5 +219,7 @@ project
 ├── inventory
 └── playbook.yml
 ```
-
+> [!NOTE]
+> Ansible looks for host_vars and group_vars subdirectories relative to both the inventory file and the playbook file.
+If your inventory and your playbook happen to be in the same directory, this is simple and Ansible looks in that directory for those subdirectories. If your inventory and your playbook are in separate directories, then Ansible looks in both places for host_vars and group_vars subdirectories. The playbook subdirectories have higher precedence.
 
