@@ -317,3 +317,19 @@ PLAY RECAP *****************************************************************
 demo.example.com    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+# Managing Secrets
+ - Objectives
+    - Encrypt sensitive variables by using Ansible Vault, and run playbooks that reference Vault-encrypted variable files.
+   
+  # Introducing Ansible Vault
+  Ansible might need access to sensitive data, such as passwords or API keys, to configure managed hosts. Normally, this information is stored as plain text in inventory variables or 
+  other Ansible files. In that case, however, any user with access to the Ansible files, or a version control system that stores the Ansible files, would have access to this sensitive 
+  data. This poses an obvious security risk.
+
+  Ansible Vault, which is included with Ansible, can be used to encrypt and decrypt any data file used by Ansible. To use Ansible Vault, use the command-line tool named ansible-vault 
+  to create, edit, encrypt, decrypt, and view files.
+  
+  Ansible Vault can encrypt any data file used by Ansible. This might include inventory variables, included variable files in a playbook, variable files passed as arguments when 
+  executing the playbook, or variables defined in Ansible roles.
+  
+
