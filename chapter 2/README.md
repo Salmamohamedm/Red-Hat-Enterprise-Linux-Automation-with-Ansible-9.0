@@ -526,10 +526,12 @@ servera.lab.example.com    : ok=2    changed=1    unreachable=0    failed=0    s
 ```
 # Implementing Multiple Plays
 - Objectives
-    - Write a playbook that uses multiple plays with per-play privilege escalation, and effectively use automation content navigator to find new modules in available Ansible Content Collections and use them to implement tasks for a play.
-  
-- Writing Multiple Plays
-  A playbook is a YAML file containing a list of one or more plays. Remember that a single play is an ordered list of tasks to execute against hosts selected from the inventory. Therefore, if a playbook contains multiple plays, each play might apply its tasks to a separate set of hosts.
+    - Write a playbook that uses multiple plays with per-play privilege escalation, and effectively use automation content navigator to find new modules in available Ansible Content 
+      Collections and use them to implement tasks for a play.
+      
+# Writing Multiple Plays
+  A playbook is a YAML file containing a list of one or more plays. Remember that a single play is an ordered list of tasks to execute against hosts selected from the inventory. 
+  Therefore, if a playbook contains multiple plays, each play might apply its tasks to a separate set of hosts.
 
 This can be very useful when orchestrating a complex deployment which might involve different tasks on different hosts. You can write a playbook that runs one play against one set of hosts, and when that finishes, runs another play against another set of hosts.
 
