@@ -500,7 +500,30 @@ This time, all tasks passed with status ok and no changes were reported.
 The default output provided by the ansible-navigator run command does not provide detailed task execution information. The -v option provides additional information, with up to four levels.
 ![Screenshot (519)](https://github.com/Salmamohamedm/Red-Hat-Enterprise-Linux-Automation-with-Ansible-9.0/assets/109488469/799a5ce6-ada5-4fa4-a011-66e43ffbac9b)
 
+Syntax Verification
+Before executing a playbook, it is good practice to validate its syntax. You can use the ansible-navigator run --syntax-check command to validate the syntax of a playbook. The following example shows the successful syntax validation of a playbook.
+```
+ ansible-navigator run -m syntax-check webserver.yml
+```
+# Executing a Dry Run
+You can use the --check option to run a playbook in check mode, which performs a "dry run" of the playbook. This causes Ansible to report what changes would have occurred if the playbook were executed, but does not make any actual changes to managed hosts.
 
+The following example shows the dry run of a playbook containing a single task for ensuring that the latest version of the httpd package is installed on a managed host. In this case, the dry run reports that the task would make a change on the managed host.
+
+```
+[user@controlnode playdemo]$ ansible-navigator run -m stdout webserver.yml --check
+
+PLAY [Play to set up web server] ***********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [servera.lab.example.com]
+
+TASK [Latest httpd version installed] ******************************************
+changed: [servera.lab.example.com]
+
+PLAY RECAP *********************************************************************
+servera.lab.example.com    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
 
 ## References
 ssh-keygen, and ssh-copy-id man pages
